@@ -1,0 +1,31 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  hybrid-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run a command in Ubuntu VM
+        run: echo "This runs on the Ubuntu VM"
+
+      - name: Run inside an Alpine container
+        uses: docker://alpine:3.14
+        with:
+          entrypoint: /bin/sh
+          args:
+            - -c
+            - |
+              echo "This runs inside an Alpine container"
+
+      - name: Run another command in Ubuntu VM
+        run: echo "Back to the VM"
+  dockerized_job:
+       runs-on: ubuntu-latest
+       container: 
+            image: #NAME_OF_IMAGE_ON_PRIVATE_DOCKER_REPO
+            cridentials:
+                  username: ${{ secrets.DOCKER_USERNAME}}
+                  password: ${{ secrets.DOCKER_PASSWORD}}
+       steps:
+           - run: node --version
+           - run: echo: "this whole job runs inside a Node.js container"      
