@@ -1,17 +1,23 @@
+name: Expression Workflow
+
 on:
-workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
-expressions:
-runs-on: ubuntu-latest
-steps:
+  expressions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run a deployment script
+        run: ./deploy.sh
 
-name: Run a deployment script
-run: ./deploy.sh
+      - name: Cleanup on success
+        if: success()
+        run: echo "Deployment succeeded"
 
-name: Cleanup on failure
-run: echo "Deployment succeeded"
-if: success()
+      - name: Always run cleanup
+        if: always()
+        run: echo "This step runs regardless of previous results"
 
-# always() -> always runs regardless of the previous step result
-# cancelled() -> if the previous step was cancelled
+      - name: Cancelled example
+        if: cancelled()
+        run: echo "Previous step was cancelled"
