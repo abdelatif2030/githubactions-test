@@ -1,0 +1,23 @@
+name: Test Annotations
+
+on:
+  workflow_dispatch:
+
+jobs:
+  annotate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Trigger a warning annotation
+        run: |
+          echo "::warning file=src/test.sh,line=1,col=1::This is a test warning"
+
+      - name: Trigger an error annotation
+        run: |
+          echo "::error file=src/test.sh,line=2,col=1::This is a test error"
+
+      - name: Trigger a notice annotation
+        run: |
+          echo "::notice file=src/test.sh,line=3,col=1::This is a test notice"
