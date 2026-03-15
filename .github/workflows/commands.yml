@@ -11,5 +11,6 @@ jobs:
         run: |
           deprecated=true
           if [[ $deprecated == true ]]; then
-            echo ":warning: Deprecated function found"
+            # This creates a warning annotation in GitHub
+            echo "::warning file=src/test.sh,line=1,col=1::Deprecated function found"
           fi
